@@ -19,11 +19,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useState } from "react";
-import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';  
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';  
+import firestore from 'firebase/firestore';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+
 
 const drawerWidth = 240;
 
@@ -67,32 +66,31 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: 'space-between',
+  justifyContent: 'flex-end',
 }));
 
-const RecentChats = ['chat1', 'chat2', 'chat3', 'chat4', 'chat5', 'chat6', 'chat7', 'chat8', 'chat9', 'chat10'];
-
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const RecentChats = ['How do I find internships?', 'How can i prepare for technical interviews', 'How can i leverage my network?', 'What steps can I take to build my personal brand?', 'How can I effectively communicate my value in job interviews?', 'How can I optimize my development workflow for better productivity?','How can I get involved in the developer community?', 'What are some tips for improving system design skills?'];
 
 export default function Home() {
 
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Hi! I'm the support agent. How can I help you today?"
+      content: "Hi! I'm the support agent. how can I help you today?"
     },
-  ]);
+  ])
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState('')
 
   const sendMessage = async () => {
-    setMessage('');
+    setMessage('')
     setMessages((messages) => [
       ...messages,
       { role: 'user', content: message },
       { role: 'assistant', content: '' },
-    ]);
+    ])
     const response = fetch('/api/chat', {
       method: 'POST',
       headers: {
@@ -100,31 +98,31 @@ export default function Home() {
       },
       body: JSON.stringify([...messages, { role: 'user', content: message }]),
     }).then(async (res) => {
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
 
-      let result = '';
+      let result = ''
       return reader.read().then(function processText({ done, value }) {
         if (done) {
           return result;
         } else {
-          const text = decoder.decode(value || new Int8Array(), { stream: true });
+          const text = decoder.decode(value || new Int8Array(), { stream: true })
           setMessages((messages) => {
-            const lastMessage = messages[messages.length - 1];
-            const priorMessages = messages.slice(0, messages.length - 1);
+            const lastMessage = messages[messages.length - 1]
+            const priorMessages = messages.slice(0, messages.length - 1)
             return [
               ...priorMessages,
               {
                 ...lastMessage,
                 content: lastMessage.content + text,
               }
-            ];
-          });
-          return reader.read().then(processText);
+            ]
+          })
+          return reader.read().then(processText)
         }
-      });
-    });
-  };
+      })
+    })
+  }
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -135,16 +133,6 @@ export default function Home() {
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };
-
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-  
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   return (
@@ -173,36 +161,6 @@ export default function Home() {
           <Typography variant="h6" noWrap component="div">
             DevOrbit
           </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -219,16 +177,18 @@ export default function Home() {
         open={open}
       >
         <DrawerHeader>
-          <Typography variant="h6" noWrap component="div">
-            Recent Chats
-          </Typography>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
+          <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Typography variant="h6" noWrap component="div">
+              Recent Chats
+            </Typography>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'ltr' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </Box>
         </DrawerHeader>
         <Divider />
         <Box
-          paddingTop="40px"
+          paddingTop="40px" // Adds a 20px gap at the top
           width={'90%'}
           height="auto"
           justifyContent="space-between"
@@ -236,13 +196,40 @@ export default function Home() {
           margin="0 auto"
         >
           <Stack width="auto" height="auto" spacing={2} overflow='auto'>
-            {RecentChats.map((text) => (
+            {RecentChats.map((text, index) => (
               <Button key={text} variant="contained" sx={{ width: '100%' }}>
                 {text}
               </Button>
             ))}
           </Stack>
+
         </Box>
+
+        {/* <List>
+          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List> */}
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
@@ -256,14 +243,6 @@ export default function Home() {
         spacing={3}
         mb={8}
       >
-        <Button
-          variant="contained" 
-          color="primary"
-          startIcon={<CreateRoundedIcon />}
-          onClick={() => window.location.reload()}
-        >
-          Start a new chat
-        </Button>
         <Stack
           direction='column'
           spacing={2}
@@ -271,34 +250,39 @@ export default function Home() {
           overflow='auto'
           maxHeight='100%'
         >
-          {messages.map((message, index) => (
-            <Box
-              key={index}
-              display='flex'
-              justifyContent={message.role === 'assistant' ? 'flex-start' : 'flex-end'}>
+          {
+            messages.map((message, index) => (
               <Box
-                bgcolor={message.role === 'assistant' ? 'primary.main' : 'secondary.main'}
-                color='white'
-                borderRadius={4}
-                p={2}
-              >
-                {message.content}
+                key={index}
+                display='flex'
+                justifyContent={message.role === 'assistant' ? 'flex-start' : 'flex-end'}>
+                <Box
+                  bgcolor={message.role === 'assistant' ? 'primary.main' : 'secondary.main'}
+                  color='white'
+                  borderRadius={4}
+                  p={2}>
+                  {message.content}
+                </Box>
               </Box>
-            </Box>
-          ))}
+            ))
+          }
         </Stack>
-        <Stack direction={'row'} spacing={2}>
+        <Stack
+          direction={'row'}
+          spacing={2}>
           <TextField
             label='Your message'
             fullWidth
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
+            onChange={(e) => setMessage(e.target.value)} />
+
           <Button variant="contained" onClick={sendMessage}>
             <SendRoundedIcon />
           </Button>
         </Stack>
       </Stack>
     </Box>
-  );
+  )
+
 }
+
