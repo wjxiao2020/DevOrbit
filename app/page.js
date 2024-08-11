@@ -3,7 +3,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { Box, Button, Stack, TextField } from '@mui/material';
+import {Box, Modal, Stack, Typography, TextField, Button, CircularProgress} from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
@@ -11,13 +11,17 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import { styled, useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import { useState } from "react";
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';  
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';  
+
+import { useRouter} from 'next/navigation';
+import {signOut} from "firebase/auth";
+import { auth } from './firebase/config';
+import {useAuthState} from 'react-firebase-hooks/auth';
 
 const drawerWidth = 240;
 
@@ -69,7 +73,11 @@ const RecentChats = ['chat1', 'chat2', 'chat3', 'chat4', 'chat5', 'chat6', 'chat
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
+
 export default function Home() {
+
+  const [user, loading] = useAuthState(auth);
+  const router = useRouter();
 
   const [messages, setMessages] = useState([
     {
@@ -78,8 +86,36 @@ export default function Home() {
       timestamp: Date.now()
     },
   ]);
-
   const [message, setMessage] = useState('');
+
+  if (loading) {
+    return (
+      <Box 
+        width="100vw" 
+        height="100vh" 
+        display="flex" 
+        flexDirection="column" 
+        justifyContent="center"
+        alignItems="center"
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!user) {
+    return router.push('/sign-in');
+  }
+
+  const handleSignOut = () => {
+    signOut(auth).then(() => {
+      router.push('/sign-in');
+      // router.refresh();
+    }).catch((error) => {
+      //TODO: Handle error
+    });
+  }
+
 
   const sendMessage = async () => {
     setMessage('');
@@ -170,6 +206,7 @@ export default function Home() {
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ flexGrow: 0 }}>
+          <Button variant="contained" onClick={handleSignOut}>Sign Out</Button>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />

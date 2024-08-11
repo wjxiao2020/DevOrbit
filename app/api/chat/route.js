@@ -6,11 +6,8 @@ const systemPropt = ''
 export async function POST(req) {
     const openai = new OpenAI({
         baseURL: "https://openrouter.ai/api/v1",
-        apiKey: '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',
-        // defaultHeaders: {
-        //   "HTTP-Referer": $YOUR_SITE_URL, // Optional, for including your app on openrouter.ai rankings.
-        //   "X-Title": $YOUR_SITE_NAME, // Optional. Shows in rankings on openrouter.ai.
-        // }
+        apiKey: process.env.OPENROUTER_API_KEY,
+
       })
     const data = await req.json()
 
