@@ -1,9 +1,16 @@
 'use client'
 import Image from "next/image";
 import { useState } from "react";
-import { Box, Button, Stack, TextField } from '@mui/material';
+import {Box, Modal, Stack, Typography, TextField, Button, CircularProgress} from '@mui/material';
+import { useRouter} from 'next/navigation';
+import {signOut} from "firebase/auth";
+import { auth } from './firebase/config';
+import {useAuthState} from 'react-firebase-hooks/auth';
 
 export default function Home() {
+
+  const [user, loading] = useAuthState(auth);
+  const router = useRouter();
 
   const [messages, setMessages] = useState([
     {
@@ -11,8 +18,36 @@ export default function Home() {
       content: "Hi! I'm the support agent. how can I help you today?"
     },
   ])
-
   const [message, setMessage] = useState('')
+
+  if (loading) {
+    return (
+      <Box 
+        width="100vw" 
+        height="100vh" 
+        display="flex" 
+        flexDirection="column" 
+        justifyContent="center"
+        alignItems="center"
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!user) {
+    return router.push('/sign-in');
+  }
+
+  const handleSignOut = () => {
+    signOut(auth).then(() => {
+      router.push('/sign-in');
+      // router.refresh();
+    }).catch((error) => {
+      //TODO: Handle error
+    });
+  }
+
 
   const sendMessage = async()=>{
     setMessage('')
@@ -62,6 +97,7 @@ export default function Home() {
       flexDirection='column'
       justifyContent='center'
       alignItems='center'>
+        <Button variant="contained" onClick={handleSignOut}>Sign Out</Button>
         <Stack
           direction='column'
           width='600px'
