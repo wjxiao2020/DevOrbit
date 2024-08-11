@@ -9,15 +9,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import { styled, useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import * as React from 'react';
 import { useState } from "react";
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import Avatar from '@mui/material/Avatar';
@@ -79,8 +73,9 @@ export default function Home() {
 
   const [messages, setMessages] = useState([
     {
-      role: 'assistant',
-      content: "Hi! I'm the support agent. How can I help you today?"
+      role: 'bot',
+      content: "Hi! I'm the support agent. How can I help you today?",
+      timestamp: Date.now()
     },
   ]);
 
@@ -91,7 +86,7 @@ export default function Home() {
     setMessages((messages) => [
       ...messages,
       { role: 'user', content: message },
-      { role: 'assistant', content: '' },
+      { role: 'bot', content: '' },
     ]);
     const response = fetch('/api/chat', {
       method: 'POST',
@@ -127,7 +122,7 @@ export default function Home() {
   };
 
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -137,7 +132,7 @@ export default function Home() {
     setOpen(false);
   };
 
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -275,9 +270,9 @@ export default function Home() {
             <Box
               key={index}
               display='flex'
-              justifyContent={message.role === 'assistant' ? 'flex-start' : 'flex-end'}>
+              justifyContent={message.role === 'bot' ? 'flex-start' : 'flex-end'}>
               <Box
-                bgcolor={message.role === 'assistant' ? 'primary.main' : 'secondary.main'}
+                bgcolor={message.role === 'bot' ? 'primary.main' : 'secondary.main'}
                 color='white'
                 borderRadius={4}
                 p={2}
