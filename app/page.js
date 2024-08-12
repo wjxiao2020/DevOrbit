@@ -3,13 +3,13 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import {Box, Modal, Stack, Typography, TextField, Button, CircularProgress} from '@mui/material';
+import {Box, Modal, Stack, Typography, TextField, Button, CircularProgress, ThemeProvider} from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled, createTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import { useState, useEffect, useRef } from "react";
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
@@ -76,21 +76,17 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const RecentChats = ['chat1', 'chat2', 'chat3', 'chat4', 'chat5', 'chat6', 'chat7', 'chat8', 'chat9', 'chat10'];
 
-// const settings = ['Profile', 'Account', 'Dashboard'];
-
 export default function Home() {
   const [mode, setMode] = useState('light');
   const theme = createTheme(LDTheme(mode));  
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
-
   
   const toggleColorMode = () => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
-  const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
