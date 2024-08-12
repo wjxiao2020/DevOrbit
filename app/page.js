@@ -405,12 +405,18 @@ export default function Home() {
       </Main>
       <Stack
         direction='column'
+        mt={10}
+        alignItems={'center'}
+      >
+      <Typography variant='h5'>{currentBot}</Typography>
+      <Stack
+        direction='column'
         width='800px'
         height='600px'
         border='1px solid #d6cece'
         p={2}
         spacing={3}
-        mt={10}
+        // mt={10}
         mb={8}
       >
         <Stack
@@ -425,6 +431,11 @@ export default function Home() {
               key={index}
               display='flex'
               justifyContent={message.role === 'bot' ? 'flex-start' : 'flex-end'}>
+              {/* {
+                message.role === 'bot' && (
+                  <Typography>{currentBot}</Typography>
+                )
+              } */}
               <Box
                 bgcolor={message.role === 'bot' ? 'primary.main' : 'secondary.main'}
                 color='white'
@@ -464,7 +475,8 @@ export default function Home() {
           onClick={handleOpenNewBotForm}
         >
           Chat with a new bot
-        </Button>
+      </Button>
+      </Stack>
       <Modal open={openNewBotForm} onClose={handleCloseNewBotForm}>
         <StyledPopUP 
           position='absolute' 
