@@ -3,25 +3,29 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import {Box, Modal, Stack, Typography, TextField, Button, CircularProgress} from '@mui/material';
+import { Box, Modal, Stack, Typography, TextField, Button, CircularProgress } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled, useTheme, ThemeProvider, createTheme} from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import { useState } from "react";
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';  
+import Tooltip from '@mui/material/Tooltip';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';  
+import MenuItem from '@mui/material/MenuItem';
 
-import { useRouter} from 'next/navigation';
-import {signOut} from "firebase/auth";
+import { useRouter } from 'next/navigation';
+import { signOut } from "firebase/auth";
 import { auth } from './firebase/config';
-import {useAuthState} from 'react-firebase-hooks/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import ToggleColorMode from './landing-page/components/ToggleColorMode'; // Import the ToggleColorMode component
+import LDTheme from './landing-page/components/LDTheme';
+
+import Link from 'next/link';
 
 const drawerWidth = 240;
 
@@ -71,13 +75,17 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const RecentChats = ['chat1', 'chat2', 'chat3', 'chat4', 'chat5', 'chat6', 'chat7', 'chat8', 'chat9', 'chat10'];
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Account', 'Dashboard'];
 
 
 export default function Home() {
-
+  const [mode, setMode] = useState('light');
+  const theme = createTheme(LDTheme(mode));  
+  // const theme = useTheme();
+  // const [mode, setMode] = useState(theme.palette.mode || 'light'); // Initialize mode with the current theme mode
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
+  
 
   const [messages, setMessages] = useState([
     {
@@ -86,15 +94,22 @@ export default function Home() {
       timestamp: Date.now()
     },
   ]);
+
   const [message, setMessage] = useState('');
+  const [open, setOpen] = useState(false);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const toggleColorMode = () => {
+    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  };
 
   if (loading) {
     return (
-      <Box 
-        width="100vw" 
-        height="100vh" 
-        display="flex" 
-        flexDirection="column" 
+      <Box
+        width="100vw"
+        height="100vh"
+        display="flex"
+        flexDirection="column"
         justifyContent="center"
         alignItems="center"
       >
@@ -115,7 +130,6 @@ export default function Home() {
       //TODO: Handle error
     });
   }
-
 
   const sendMessage = async () => {
     setMessage('');
@@ -157,9 +171,6 @@ export default function Home() {
     });
   };
 
-  const theme = useTheme();
-  const [open, setOpen] = useState(false);
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -168,17 +179,17 @@ export default function Home() {
     setOpen(false);
   };
 
-  const [anchorElUser, setAnchorElUser] = useState(null);
-
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-  
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
   return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
     <Box
       width='100vw'
       height='100vh'
@@ -189,7 +200,6 @@ export default function Home() {
       margin='0'
       padding='0'
     >
-      <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
@@ -202,11 +212,33 @@ export default function Home() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            DevOrbit
+            <Link href="/landing-page" style={{ color: 'inherit', textDecoration: 'none' }}>
+              DevOrbit
+            </Link>
           </Typography>
+          <Stack sx={{ml: 5}}>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ width: '1px' }} 
+              startIcon={<CreateRoundedIcon />}
+              onClick={() => window.location.reload()}
+            >
+            </Button>
+          </Stack>
           <Box sx={{ flexGrow: 1 }} />
+          <ToggleColorMode 
+            mode={mode} 
+            toggleColorMode={toggleColorMode}
+          /> 
           <Box sx={{ flexGrow: 0 }}>
-          <Button variant="contained" onClick={handleSignOut}>Sign Out</Button>
+            <Button 
+              variant="contained" 
+              onClick={handleSignOut}
+              sx={{ marginLeft: '10px', marginRight: '15px' }} //with theme
+            >
+              Sign Out
+            </Button>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />
@@ -251,7 +283,7 @@ export default function Home() {
         open={open}
       >
         <DrawerHeader>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
             Recent Chats
           </Typography>
           <IconButton onClick={handleDrawerClose}>
@@ -288,14 +320,6 @@ export default function Home() {
         spacing={3}
         mb={8}
       >
-        <Button
-          variant="contained" 
-          color="primary"
-          startIcon={<CreateRoundedIcon />}
-          onClick={() => window.location.reload()}
-        >
-          Start a new chat
-        </Button>
         <Stack
           direction='column'
           spacing={2}
@@ -325,6 +349,15 @@ export default function Home() {
             fullWidth
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            InputLabelProps={{
+              style: { top: '-7px', fontSize: '0.75rem'  }, // while theme is applied
+            }}
+            sx={{
+              height: '30px', 
+              '& .MuiInputBase-root': {
+                height: '100%',
+              },
+            }}
           />
           <Button variant="contained" onClick={sendMessage}>
             <SendRoundedIcon />
@@ -332,5 +365,6 @@ export default function Home() {
         </Stack>
       </Stack>
     </Box>
+    </ThemeProvider>
   );
 }
