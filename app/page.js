@@ -207,7 +207,7 @@ export default function Home() {
   }
 
   if (!user) {
-    return router.push('/sign-in');
+    return router.push('/sign-up');
   } 
 
   const handleSignOut = () => {
@@ -427,19 +427,19 @@ export default function Home() {
       </Main>
       <Stack
         direction='column'
-        mt={10}
+        sx={{ marginTop: 0, paddingTop: 0}}
         alignItems={'center'}
       >
       <Typography variant='h5'>{currentBot}</Typography>
       <Stack
         direction='column'
-        width='800px'
+        width='600px'
         height='600px'
         border='1px solid #d6cece'
         p={2}
         spacing={3}
         // mt={10}
-        mb={8}
+        mb={3}
       >
         <Stack
           direction='column'
@@ -492,7 +492,7 @@ export default function Home() {
               }
             }}
           />
-          <Button variant="contained" onClick={sendMessage}>
+          <Button variant="contained" onClick={() => sendMessage(message)}>
             <SendRoundedIcon />
           </Button>
         </Stack>
@@ -502,6 +502,7 @@ export default function Home() {
           color="primary"
           startIcon={<CreateRoundedIcon />}
           onClick={handleOpenNewBotForm}
+          sx={{ marginBottom: '10px' }} //with theme
         >
           Chat with a new bot
       </Button>
