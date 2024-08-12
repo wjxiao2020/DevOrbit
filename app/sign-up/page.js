@@ -74,6 +74,10 @@ const SignUp = () => {
       });
   };
 
+  const handleSignInRedirect = () => {
+    router.push('/sign-in');
+  };
+
   return (
     <Box 
       sx={{
@@ -140,7 +144,7 @@ const SignUp = () => {
       />
       <Button 
         variant="contained" 
-        color="secondary" 
+        color="primary" 
         onClick={handleSignUp}
         sx={{
           marginTop: 2,
@@ -149,6 +153,23 @@ const SignUp = () => {
       >
         Sign Up
       </Button>
+      <Typography 
+        variant="body2" 
+        sx={{ 
+          marginTop: 2, 
+          textAlign: 'center' 
+        }}
+      >
+        Already have an account?{' '}
+        <Button 
+          variant="text" 
+          color="primary" 
+          sx={{ textTransform: 'none', padding: 0 }}
+          onClick={handleSignInRedirect}
+        >
+          Sign In
+        </Button>
+      </Typography>
     </Box>
   );
 }

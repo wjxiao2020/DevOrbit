@@ -10,6 +10,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 // MUI imports
 import { Alert, Box,  Button, CircularProgress, Typography, TextField} from '@mui/material';
 
+import Link from 'next/link';
+
 const SignIn = () => {
   const [user, loading] = useAuthState(auth);
   const [email, setEmail] = useState('');
@@ -64,6 +66,10 @@ const SignIn = () => {
         setError(error.message);
         console.error('Google Sign-In error:', error);
       });
+  };
+
+  const handleSignUpRedirect = () => {
+    router.push('/sign-up');
   };
 
   return (
@@ -141,6 +147,23 @@ const SignIn = () => {
       >
         Sign In
       </Button>
+      <Typography 
+        variant="body2" 
+        sx={{ 
+          marginTop: 2, 
+          textAlign: 'center' 
+        }}
+      >
+        Don't have an account?{' '}
+        <Button 
+          variant="text" 
+          color="primary" 
+          sx={{ textTransform: 'none', padding: 0 }}
+          onClick={handleSignUpRedirect}
+        >
+          Sign Up
+        </Button>
+      </Typography>
     </Box>
   );
 }
