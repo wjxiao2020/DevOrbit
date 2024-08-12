@@ -332,14 +332,6 @@ export default function Home() {
             </Link>
           </Typography>
           <Stack sx={{ml: 5}}>
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ width: '1px' }} 
-              startIcon={<CreateRoundedIcon />}
-              onClick={() => window.location.reload()}
-            >
-            </Button>
           </Stack>
           <Box sx={{ flexGrow: 1 }} />
           <ToggleColorMode 
