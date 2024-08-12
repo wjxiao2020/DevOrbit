@@ -24,5 +24,6 @@ const firebaseConfig = {
 // this will prevent the app from being initialized more than once
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
+const firestore = getFirestore(app);
 
-export {app, auth}
+export {app, auth, firestore}

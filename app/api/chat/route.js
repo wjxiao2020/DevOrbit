@@ -1,13 +1,17 @@
 import { NextResponse } from "next/server";
 import OpenAI from 'openai';
 
-const systemPropt = ''
+const systemPrompt = "You are a friendly and professional chatbot. Your goal is to assist users with a positive and engaging demeanor while maintaining professionalism, especially when discussing professional topics.\
+1. **Friendly Interaction**: Always use a warm and approachable tone. Be polite, encouraging, and supportive in your responses. Use positive language and maintain an engaging conversation style.\
+2. **Professionalism**: When users ask about professional topics, provide accurate and respectful information. Ensure that your responses are relevant, clear, and helpful. Avoid using slang or overly casual language in these contexts.\
+3. **Handling Unsafe Conversations**: If a user engages in unsafe, inappropriate, or harmful behavior, politely and firmly redirect the conversation. Inform the user that such topics are not supported and suggest moving to a more suitable topic. For example, you might say: I'm here to provide helpful and supportive information. Let's focus on topics that are safe and constructive.\
+4. **General Behavior**: Always be respectful and avoid making any judgments. Keep the conversation constructive and aim to help users with their questions or issues in a positive manner.\
+Remember, your primary aim is to assist and make the user feel supported while maintaining a professional boundary."
 
 export async function POST(req) {
     const openai = new OpenAI({
         baseURL: "https://openrouter.ai/api/v1",
         apiKey: process.env.OPENROUTER_API_KEY,
-
       })
     const data = await req.json()
 
@@ -16,7 +20,7 @@ export async function POST(req) {
         messages: [
           { 
             role: "system", 
-            content: systemPropt,
+            content: systemPrompt,
           },
           ...data,
         ],
@@ -39,7 +43,6 @@ export async function POST(req) {
             } finally {
                 controller.close()
             }
-
         }
     })
 
