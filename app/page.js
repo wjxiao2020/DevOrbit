@@ -11,14 +11,14 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import { styled, useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';  
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';  
 
-import { useRouter} from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import {signOut} from "firebase/auth";
 import { auth, firestore } from './firebase/config';
 import {useAuthState} from 'react-firebase-hooks/auth';
@@ -91,6 +91,8 @@ export default function Home() {
   const [botName, setBotName] = useState('');
   const [botDescription, setBotDescription] = useState('');
   const [botPrompt, setBotPrompt] = useState('');
+
+  const endOfMessagesRef = useRef(null);
 
   // chat history database structure: /users/{userId}/bots/{botName}/chats/{messageId}
   const saveChatHistory = async(chatMessages) => {
@@ -176,6 +178,12 @@ export default function Home() {
       fetchBotsList();
     }
   }, [userId]);
+
+  useEffect(() => {
+    if (endOfMessagesRef.current) {
+      endOfMessagesRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
 
   if (loading) {
     return (
@@ -398,10 +406,11 @@ export default function Home() {
       <Stack
         direction='column'
         width='800px'
-        height='700px'
+        height='600px'
         border='1px solid #d6cece'
         p={2}
         spacing={3}
+        mt={10}
         mb={8}
       >
         <Stack
@@ -426,6 +435,8 @@ export default function Home() {
               </Box>
             </Box>
           ))}
+          {/* Dummy element to ensure scrolling */}
+          <div ref={endOfMessagesRef} />
         </Stack>
         <Stack direction={'row'} spacing={2}>
           <TextField
