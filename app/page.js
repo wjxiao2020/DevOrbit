@@ -295,13 +295,6 @@ export default function Home() {
     setOpenNewBotForm(false)
   }
 
-  const settings = [
-    {option: 'Profile', handler: handleCloseUserMenu }, 
-    {option: 'Account', handler: handleCloseUserMenu }, 
-    {option: 'Dashboard', handler: handleCloseUserMenu }, 
-    {option: 'Logout', handler: handleSignOut }
-  ];
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -346,8 +339,8 @@ export default function Home() {
             >
               Sign Out
             </Button>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <Tooltip >
+              <IconButton >
                 <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
@@ -367,11 +360,7 @@ export default function Home() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map(({option, handler}) => (
-                <MenuItem key={option} onClick={handler}>
-                  <Typography textAlign="center">{option}</Typography>
-                </MenuItem>
-              ))}
+
             </Menu>
           </Box>
         </Toolbar>

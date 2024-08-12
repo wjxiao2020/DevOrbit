@@ -48,7 +48,7 @@ export default function Hero() {
               flexWrap: 'wrap',
             }}
           >
-            Your AI Buddy for Landing a&nbsp;
+            Elevate Every&nbsp;
             <Typography
               component="span"
               variant="inherit"
@@ -58,16 +58,17 @@ export default function Hero() {
                   theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
               }}
             >
-              Tech Job
+            Conversation
             </Typography>
+            &nbsp;
           </Typography>
           <Typography
             textAlign="center"
             color="text.secondary"
             sx={{ alignSelf: 'center', width: { sm: '100%', md: '80%' } }}
           >
-            Navigate your job search with ease using our intuitive AI chatbot. 
-            Unlock personalized insights and resources to elevate your path to a successful tech career.
+            "Unleash the power of personalized interaction. With roles tailored to your needs, 
+            our AI chatbot is where conversation meets creativity—bringing your unique ideas to life."
           </Typography>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}

@@ -15,40 +15,40 @@ import ThumbUpAltRoundedIcon from '@mui/icons-material/ThumbUpAltRounded';
 const items = [
   {
     icon: <SettingsSuggestRoundedIcon />,
-    title: 'Adaptable performance',
+    title: 'Personalized AI Companions',
     description:
-      'Our product effortlessly adjusts to your needs, boosting efficiency and simplifying your tasks.',
-  },
-  {
-    icon: <ConstructionRoundedIcon />,
-    title: 'Built to last',
-    description:
-      'Experience unmatched durability that goes above and beyond with lasting investment.',
-  },
-  {
-    icon: <ThumbUpAltRoundedIcon />,
-    title: 'Great user experience',
-    description:
-      'Integrate our product into your routine with an intuitive and easy-to-use interface.',
-  },
-  {
-    icon: <AutoFixHighRoundedIcon />,
-    title: 'Innovative functionality',
-    description:
-      'Stay ahead with features that set new standards, addressing your evolving needs better than the rest.',
-  },
-  {
-    icon: <SupportAgentRoundedIcon />,
-    title: 'Reliable support',
-    description:
-      'Count on our responsive customer support, offering assistance that goes beyond the purchase.',
+      'Trust in your personalized AI companions to provide instant, tailored assistance, offering expert advice and guidance in every interaction.',
   },
   {
     icon: <QueryStatsRoundedIcon />,
-    title: 'Precision in every detail',
+    title: 'Unified Chat Access',
     description:
-      'Enjoy a meticulously crafted product where small touches make a significant impact on your overall experience.',
+      'Keep all your conversations organized in one place, with easy access to each bot’s chat history and responses',
   },
+  {
+    icon: <ThumbUpAltRoundedIcon />,
+    title: 'Enhanced User Experience',
+    description:
+      'Enjoy a user-friendly interface that simplifies bot creation and interaction, making your multi-bot experience both intuitive and efficient, with your needs always in focus.',
+  },
+  // {
+  //   icon: <AutoFixHighRoundedIcon />,
+  //   title: 'Adaptive Conversations',
+  //   description:
+  //     'Stay ahead with features that set new standards, addressing your evolving needs better than the rest.',
+  // },
+  // {
+  //   icon: <SupportAgentRoundedIcon />,
+  //   title: 'Reliable support',
+  //   description:
+  //     'Rely on our dedicated support for seamless bot creation and management, ensuring your experience is smooth and hassle-free, even after setup.',
+  // },
+  // {
+  //   icon: <QueryStatsRoundedIcon />,
+  //   title: 'Precision in every detail',
+  //   description:
+  //     'Enjoy a meticulously crafted product where small touches make a significant impact on your overall experience.',
+  // },
 ];
 
 export default function Highlights() {
@@ -80,11 +80,11 @@ export default function Highlights() {
           <Typography component="h2" variant="h4">
             Highlights
           </Typography>
-          <Typography variant="body1" sx={{ color: 'grey.400' }}>
+          {/* <Typography variant="body1" sx={{ color: 'grey.400' }}>
             Explore why our product stands out: adaptability, durability,
             user-friendly design, and innovation. Enjoy reliable customer support and
             precision in every detail.
-          </Typography>
+          </Typography> */}
         </Box>
         <Grid container spacing={2.5}>
           {items.map((item, index) => (

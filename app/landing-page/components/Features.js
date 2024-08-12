@@ -7,30 +7,32 @@ import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded';
 import EdgesensorHighRoundedIcon from '@mui/icons-material/EdgesensorHighRounded';
 import ViewQuiltRoundedIcon from '@mui/icons-material/ViewQuiltRounded';
 import Link from '@mui/material/Link';
+import HistoryIcon from '@mui/icons-material/History';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 const items = [
   {
-    icon: <ViewQuiltRoundedIcon />,
-    title: 'Dashboard',
+    icon: <PeopleAltIcon />,
+    title: 'Role-Based Assistance',
     description:
-      'This item could provide a snapshot of the most important metrics or data points related to the product.',
+      'Customize your chatbots to fit your needs, from casual conversation partners to expert advisors, and switch between them effortlessly.',
   },
   {
-    icon: <EdgesensorHighRoundedIcon />,
-    title: 'Chat Bot',
+    icon: <HistoryIcon />,
+    title: 'Chat History',
     description:
-      'This item could provide information about the mobile app version of the product.',
+      'Easily access and review past conversations, allowing you to revisit crucial advice, tips, and insights at any time.',
   },
   {
-    icon: <DevicesRoundedIcon />,
-    title: 'Resources',
+    icon: <DarkModeIcon />,
+    title: 'Dark Mode',
     description:
-      'A collection of resources to help you navigate through your tech job search.',
+      'Switch to dark mode for a more comfortable and focused experience, keeping you energized and productive.',
   },
 ];
 
@@ -50,15 +52,13 @@ export default function Features() {
         <Grid item xs={12}>
           <div>
             <Typography component="h2" variant="h4" color="text.primary">
-              Product features
+              Product Features
             </Typography>
             <Typography
               variant="body1"
               color="text.secondary"
               sx={{ mb: { xs: 2, sm: 4 } }}
             >
-              Here you can provide a brief overview of the key features of the
-              product. 
             </Typography>
           </div>
           <Grid container item gap={1} sx={{ display: { xs: 'auto', sm: 'none' } }}>
@@ -161,27 +161,6 @@ export default function Features() {
                     >
                       {description}
                     </Typography>
-                    <Link
-                      color="primary"
-                      variant="body2"
-                      fontWeight="bold"
-                      sx={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        '& > svg': { transition: '0.2s' },
-                        '&:hover > svg': { transform: 'translateX(2px)' },
-                        cursor: 'pointer' // Adding pointer cursor for better UX
-                      }}
-                      onClick={(event) => {
-                        event.stopPropagation(); // Prevent click from propagating to parent
-                      }}
-                    >
-                      <span>Learn more</span>
-                      <ChevronRightRoundedIcon
-                        fontSize="small"
-                        sx={{ mt: '1px', ml: '2px' }}
-                      />
-                    </Link>
                   </Box>
                 </Box>
               </Card>
