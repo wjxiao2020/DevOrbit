@@ -23,6 +23,10 @@ import {signOut} from "firebase/auth";
 import { auth, firestore } from './firebase/config';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import { collection, doc, getDoc, getDocs, setDoc, query, orderBy, limit } from "firebase/firestore";
+import ToggleColorMode from './landing-page/components/ToggleColorMode'; // Import the ToggleColorMode component
+import LDTheme from './landing-page/components/LDTheme';
+
+import Link from 'next/link';
 
 const drawerWidth = 240;
 
@@ -72,12 +76,18 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const RecentChats = ['chat1', 'chat2', 'chat3', 'chat4', 'chat5', 'chat6', 'chat7', 'chat8', 'chat9', 'chat10'];
 
+// const settings = ['Profile', 'Account', 'Dashboard'];
 
 export default function Home() {
-
+  const [mode, setMode] = useState('light');
+  const theme = createTheme(LDTheme(mode));  
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
 
+  
+  const toggleColorMode = () => {
+    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  };
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
   const theme = useTheme();
@@ -297,6 +307,8 @@ export default function Home() {
   ];
 
   return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
     <Box
       width='100vw'
       height='100vh'
@@ -307,7 +319,6 @@ export default function Home() {
       margin='0'
       padding='0'
     >
-      <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
@@ -320,10 +331,33 @@ export default function Home() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            DevOrbit
+            <Link href="/landing-page" style={{ color: 'inherit', textDecoration: 'none' }}>
+              DevOrbit
+            </Link>
           </Typography>
+          <Stack sx={{ml: 5}}>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ width: '1px' }} 
+              startIcon={<CreateRoundedIcon />}
+              onClick={() => window.location.reload()}
+            >
+            </Button>
+          </Stack>
           <Box sx={{ flexGrow: 1 }} />
+          <ToggleColorMode 
+            mode={mode} 
+            toggleColorMode={toggleColorMode}
+          />
           <Box sx={{ flexGrow: 0 }}>
+            <Button 
+              variant="contained" 
+              onClick={handleSignOut}
+              sx={{ marginLeft: '10px', marginRight: '15px' }} //with theme
+            >
+              Sign Out
+            </Button>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />
@@ -368,7 +402,7 @@ export default function Home() {
         open={open}
       >
         <DrawerHeader>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
             Recent Chats
           </Typography>
           <IconButton onClick={handleDrawerClose}>
@@ -456,6 +490,13 @@ export default function Home() {
             multiline
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            InputLabelProps={{
+              style: { top: '-7px', fontSize: '0.75rem'  }, // while theme is applied
+            }}
+            sx={{
+              height: '30px', 
+              '& .MuiInputBase-root': {height: '100%'}
+            }}
             onKeyDown={(k) => {
               if (k.key === 'Enter') {
                 event.preventDefault();
@@ -551,6 +592,7 @@ export default function Home() {
         </StyledPopUP>
       </Modal>
     </Box>
+    </ThemeProvider>
   );
 }
 
