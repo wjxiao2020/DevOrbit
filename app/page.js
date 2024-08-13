@@ -339,7 +339,7 @@ export default function Home() {
             </Button>
             <Tooltip >
               <IconButton >
-                <Avatar alt="User Profile" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="User Profile">W</Avatar>
               </IconButton>
             </Tooltip>
             <Menu

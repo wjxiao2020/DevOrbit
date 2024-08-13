@@ -18,7 +18,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 const items = [
   {
     icon: <PeopleAltIcon />,
-    title: 'Role-Based Assistance',
+    title: 'Role-Based Conversation',
     description:
       'Customize your chatbots to fit your needs, from casual conversation partners to expert advisors, and switch between them effortlessly.',
   },

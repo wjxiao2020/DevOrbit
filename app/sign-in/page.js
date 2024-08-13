@@ -10,8 +10,6 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 // MUI imports
 import { Alert, Box,  Button, CircularProgress, Typography, TextField} from '@mui/material';
 
-import Link from 'next/link';
-
 const SignIn = () => {
   const [user, loading] = useAuthState(auth);
   const [email, setEmail] = useState('');
@@ -48,7 +46,7 @@ const SignIn = () => {
         router.push('/'); 
       })
       .catch((error) => {
-        setError(error.message); 
+        setError('Invalid email or incorrect password!'); 
         console.error(error.code);
         console.error(error.message);
       });
