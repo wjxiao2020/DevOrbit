@@ -205,7 +205,7 @@ export default function Home() {
   }
 
   if (!user) {
-    return router.push('/sign-up');
+    return router.push('/sign-in');
   } 
 
   const handleSignOut = () => {
