@@ -33,7 +33,7 @@ export default function Footer() {
         textAlign: { sm: 'center', md: 'left' },
       }}
     >
-      <Box
+      {/* <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -42,9 +42,9 @@ export default function Footer() {
           borderTop: '1px solid',
           borderColor: 'divider',
         }}
-      >
+      > */}
         <Copyright />
-      </Box>
+      {/* </Box> */}
     </Container>
   );
 }
