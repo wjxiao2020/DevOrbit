@@ -19,7 +19,8 @@ function ToggleColorMode({ mode, toggleColorMode }) {
         '32px', 
         height: '32px', 
         p: '4px',
-        color: mode === 'light' ? 'white' : 'inherit' 
+        color: mode === 'light' ? 'black' : 'white' 
+        // color: 'inherit' 
         }}
       >
         {mode === 'dark' ? (

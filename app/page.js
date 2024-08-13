@@ -16,7 +16,6 @@ import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';  
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';  
 
 import { useRouter } from 'next/navigation';
 import {signOut} from "firebase/auth";
@@ -74,8 +73,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'space-between',
 }));
 
-const RecentChats = ['chat1', 'chat2', 'chat3', 'chat4', 'chat5', 'chat6', 'chat7', 'chat8', 'chat9', 'chat10'];
-
 export default function Home() {
   const [mode, setMode] = useState('light');
   const theme = createTheme(LDTheme(mode));  
@@ -96,7 +93,7 @@ export default function Home() {
   const [openNewBotForm, setOpenNewBotForm] = useState(false);
   const [botName, setBotName] = useState('');
   const [botDescription, setBotDescription] = useState('');
-  const [botPrompt, setBotPrompt] = useState('');
+  const [botPrompt, setBotPrompt] = useState('You are the main bot of the DevOrbit platform. If the user would like to chat with other bots, you can guide user to create and chat with other bots that has self-defined personality by clicking the "chat with a new bot" button below the chat window. ');
 
   const endOfMessagesRef = useRef(null);
 
@@ -119,7 +116,7 @@ export default function Home() {
   const getBotPrompt = async(bot) => {
     const botRef = doc(firestore, 'users', userId, 'bots', bot);
     const botSnap = await getDoc(botRef);
-    setBotPrompt(botSnap.exists() ? botSnap.data().prompt : '');
+    setBotPrompt(botSnap.exists() && botSnap.data().prompt? botSnap.data().prompt : '');
   }
 
   useEffect(() => {
@@ -149,6 +146,7 @@ export default function Home() {
           } else {
             setMessages(defaultIntro);
             saveChatHistory(defaultIntro);
+            saveBotPrompt(currentBot, botPrompt);
           }
         } catch (error) {
           console.error("Error fetching chat history: ", error);
