@@ -11,7 +11,7 @@ export default function Hero() {
   const router = useRouter();
 
   const handleStartNowClick = () => {
-    router.push('/sign-in'); // Redirect to the sign-in page
+    router.push('/sign-up'); // Redirect to the sign-in page
   };
 
   return (
