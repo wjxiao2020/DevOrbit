@@ -22,7 +22,7 @@ import {signOut} from "firebase/auth";
 import { auth, firestore } from './firebase/config';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import { collection, doc, getDoc, getDocs, setDoc, query, orderBy, limit } from "firebase/firestore";
-import ToggleColorMode from './landing-page/components/ToggleColorMode'; // Import the ToggleColorMode component
+import ToggleColorMode from './landing-page/components/ToggleColorMode'; 
 import LDTheme from './landing-page/components/LDTheme';
 
 import Link from 'next/link';
@@ -333,7 +333,7 @@ export default function Home() {
             <Button 
               variant="contained" 
               onClick={handleSignOut}
-              sx={{ marginLeft: '10px', marginRight: '15px' }} //with theme
+              sx={{ marginLeft: '10px', marginRight: '15px' }} 
             >
               Sign Out
             </Button>
@@ -425,7 +425,6 @@ export default function Home() {
         border='1px solid #d6cece'
         p={2}
         spacing={3}
-        // mt={10}
         mb={3}
       >
         <Stack
@@ -440,11 +439,6 @@ export default function Home() {
               key={index}
               display='flex'
               justifyContent={message.role === 'bot' ? 'flex-start' : 'flex-end'}>
-              {/* {
-                message.role === 'bot' && (
-                  <Typography>{currentBot}</Typography>
-                )
-              } */}
               <Box
                 bgcolor={message.role === 'bot' ? 'primary.main' : 'secondary.main'}
                 color='white'
@@ -455,7 +449,6 @@ export default function Home() {
               </Box>
             </Box>
           ))}
-          {/* Dummy element to ensure scrolling */}
           <div ref={endOfMessagesRef} />
         </Stack>
         <Stack direction={'row'} spacing={2}>
@@ -466,7 +459,7 @@ export default function Home() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             InputLabelProps={{
-              style: { top: '-7px', fontSize: '0.75rem'  }, // while theme is applied
+              style: { top: '-7px', fontSize: '0.75rem'  },
             }}
             sx={{
               height: '30px', 
@@ -489,7 +482,7 @@ export default function Home() {
           color="primary"
           startIcon={<CreateRoundedIcon />}
           onClick={handleOpenNewBotForm}
-          sx={{ marginBottom: '10px' }} //with theme
+          sx={{ marginBottom: '10px' }} 
         >
           Chat with a new bot
       </Button>
@@ -510,7 +503,7 @@ export default function Home() {
           gap={3}
           sx={{
             transform: 'translate(-50%, -50%)',
-            borderRadius: '15px'
+            borderRadius: '15px',
           }}>
             <Typography variant="h6"> Create Your New Bot </Typography>
             <Stack width='100%' direction='row' spacing={2} alignItems={'center'} display={'flex'} justifyContent={'center'}>
@@ -520,10 +513,12 @@ export default function Home() {
             
               <TextField
                 variant='outlined'
-                // fullWidth
                 size="small"
                 label="Name your bot"
                 placeholder="Enter name here ..."
+                InputLabelProps={{
+                  style: { top: '-7px', fontSize: '0.75rem'  },
+                }}
                 sx={{ width: '25ch' }}
                 value={botName}
                 onChange={(e) => {
@@ -541,6 +536,9 @@ export default function Home() {
                 fullWidth
                 multiline
                 label="How do you want your bot to be? "
+                InputLabelProps={{
+                  style: { top: '-7px', fontSize: '0.75rem'  },
+                }}
                 placeholder="Enter description here ..."
                 sx={{ width: '25ch' }}
                 value={botDescription}
@@ -573,6 +571,7 @@ export default function Home() {
 }
 
 const StyledPopUP = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
   [theme.breakpoints.down("lg")]: {
     width: '50vw',
   },
