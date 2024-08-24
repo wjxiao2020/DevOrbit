@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useState} from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
@@ -14,7 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from './ToggleColorMode';
 
 function AppAppBar({ mode, toggleColorMode }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -124,6 +124,8 @@ function AppAppBar({ mode, toggleColorMode }) {
                 Sign in
               </Button>
             </Box>
+            
+            {/* shown when page width is small: */}
             <Box sx={{ display: { sm: '', md: 'none' } }}>
               <Button
                 variant="text"
@@ -159,9 +161,6 @@ function AppAppBar({ mode, toggleColorMode }) {
                   <MenuItem onClick={() => scrollToSection('highlights')}>
                     Highlights
                   </MenuItem>
-                  {/* <MenuItem onClick={() => scrollToSection('contact-us')}>
-                    Contact Us
-                  </MenuItem> */}
                   <Divider />
                   <MenuItem>
                     <Button

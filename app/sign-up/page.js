@@ -33,7 +33,7 @@ const SignUp = () => {
     );
   }
   if (user) {
-    return router.push('/');
+    return router.push('/chat');
   }
 
 
@@ -46,7 +46,7 @@ const SignUp = () => {
         const token = credential.accessToken;
         const user = result.user;
         console.log('User signed in:', user);
-        router.push('/');
+        router.push('/chat');
       }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;

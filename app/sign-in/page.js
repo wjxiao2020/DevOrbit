@@ -32,7 +32,7 @@ const SignIn = () => {
     );
   }
   if (user) {
-    return router.push('/');
+    return router.push('/chat');
   }
 
 
@@ -43,7 +43,7 @@ const SignIn = () => {
         setPassword('');
         const user = userCredential.user;
         console.log('User signed in:', user);
-        router.push('/'); 
+        router.push('/chat'); 
       })
       .catch((error) => {
         setError('Invalid email or incorrect password!'); 
@@ -58,7 +58,7 @@ const SignIn = () => {
       .then((result) => {
         const user = result.user;
         console.log('User signed in with Google:', user);
-        router.push('/');
+        router.push('/chat');
       })
       .catch((error) => {
         setError(error.message);
@@ -152,7 +152,7 @@ const SignIn = () => {
           textAlign: 'center' 
         }}
       >
-        Don't have an account?{' '}
+        Don&apos;t have an account?{' '}
         <Button 
           variant="text" 
           color="primary" 

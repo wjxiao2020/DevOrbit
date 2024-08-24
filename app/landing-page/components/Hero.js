@@ -67,8 +67,8 @@ export default function Hero() {
             color="text.secondary"
             sx={{ alignSelf: 'center', width: { sm: '100%', md: '80%' } }}
           >
-            "Unleash the power of personalized interaction. With roles tailored to your needs, 
-            our AI chatbot is where conversation meets creativity—bringing your unique ideas to life."
+            Unleash the power of personalized interaction. With roles tailored to your needs, 
+            our AI chatbot is where conversation meets creativity—bringing your unique ideas to life.
           </Typography>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
