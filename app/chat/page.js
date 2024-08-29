@@ -433,19 +433,28 @@ export default function Home() {
         mb={3}
       >
         <Stack
-          // direction='column'
-          // spacing={2}
-          // flexGrow={1}
-          // overflow='auto'
-          // maxHeight='100%'
           direction="column"
           spacing={2}
           flexGrow={1}
           overflow="auto"
+          paddingRight={'5px'}
           sx={{
             height: '100%', // Adjust this to control the chat window height
             maxHeight: '100%', // Same as height for consistent scroll behavior
             // border: '1px solid #ccc', // Add a border to visualize the chat window
+            '&::-webkit-scrollbar-track': {
+              backgroundColor: 'transparent', // Make the scrollbar track background transparent
+            },
+            '&::-webkit-scrollbar': {
+              width: '8px', // Customize the scrollbar width
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: '#888', // Customize the scrollbar thumb (the draggable part)
+              borderRadius: '4px',     // Add some rounding to the scrollbar thumb
+            },
+            '&::-webkit-scrollbar-thumb:hover': {
+              backgroundColor: '#555', // Darken the scrollbar thumb on hover
+            },
           }}
         >
           {messages.map((message, index) => (
@@ -508,12 +517,12 @@ export default function Home() {
           left='50%' 
           width='50%'
           bgcolor='white' 
-          border='1px solid ' 
+          border='1px solid' 
           boxShadow={24} 
           display={'flex'} 
           flexDirection={'column'} 
           alignItems={'center'}
-          p = {5}
+          p={5}
           gap={3}
           sx={{
             transform: 'translate(-50%, -50%)',
