@@ -185,7 +185,7 @@ export default function Home() {
 
   useEffect(() => {
     if (endOfMessagesRef.current) {
-      endOfMessagesRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      endOfMessagesRef.current.scrollIntoView({ block: 'end' });
     }
   }, [messages]);
 

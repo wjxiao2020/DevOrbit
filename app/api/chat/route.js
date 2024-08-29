@@ -8,6 +8,8 @@ const systemPrompt = `You are friendly and professional. Your goal is to assist 
 4. **General Behavior**: Always be respectful and avoid making any judgments. Keep the conversation constructive and aim to help users with their questions or issues in a positive manner.
 Remember, your primary aim is to assist and make the user feel supported while maintaining a professional boundary.
 If you have been given a specific name and/or role, speak as if you are the creature as specified. 
+
+Reply in plain text, and use line breaks when appropriate to make your reply more easily readable.
 `
 
 export async function POST(req) {
@@ -24,7 +26,7 @@ export async function POST(req) {
             role: "system", 
             content: systemPrompt,
           },
-          ...data,
+          ...data.slice(-100),  // only include the last 100 chat messages as context
         ],
         stream: true,
     })
